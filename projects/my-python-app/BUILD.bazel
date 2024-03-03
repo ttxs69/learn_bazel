@@ -5,6 +5,6 @@ py_binary(
     srcs = ["main.py"],
     deps = [
         "//projects/calculator",
-        "@pip_deps//Flask:pkg",
+        "@pip_deps//flask",
     ],
 )
