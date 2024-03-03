@@ -16,12 +16,12 @@ jobs:
         with:
           path: "~/.cache/bazel"
           key: bazel
+
+      - name: Gen requirements_lock.txt
+        run: bazel run //projects/my-python-app/requirements:requirements.update
       
       - name: Build
         run: bazel build //...
-      
-      - name: Gen requirements_lock.txt
-        run: bazel run //projects/my-python-app/requirements:requirements.update
 
       - name: Test
         run: bazel test //...
