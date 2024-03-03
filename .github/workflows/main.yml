@@ -1,0 +1,27 @@
+name: bazel build
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+on: [push, pull_request]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bazelisk
+        uses: bazelbuild/setup-bazelisk@v3.0.0
+
+      - name: Mount bazel cache  # Optional
+        uses: actions/cache@v4
+        with:
+          path: "~/.cache/bazel"
+          key: bazel
+      
+      - name: Build
+        run: bazel build //...
+      
+      - name: Gen requirements_lock.txt
+        run: bazel run //projects/my-python-app/requirements:requirements.update
+
+      - name: Test
+        run: bazel test //...
